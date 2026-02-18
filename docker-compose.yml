@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: meu_banco
+      POSTGRES_USER: meu_usuario
+      POSTGRES_PASSWORD: minha_senha
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    shm_size: 128mb
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
