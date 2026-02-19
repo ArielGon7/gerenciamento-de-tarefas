@@ -1,4 +1,4 @@
-package com.devariel.gerenciamento_de_tarefas;
+package com.devariel.gerenciamento_de_tarefas.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
