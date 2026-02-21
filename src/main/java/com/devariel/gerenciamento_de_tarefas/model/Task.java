@@ -21,9 +21,9 @@ public class Task {
     private String description;
 
     @Column(name = "Completed")
-    private Boolean completed = false;
+    private Boolean completed;
 
     @Column(name = "CreatedAt")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
 }

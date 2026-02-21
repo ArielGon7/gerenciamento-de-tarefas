@@ -5,6 +5,7 @@ import com.devariel.gerenciamento_de_tarefas.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -13,6 +14,8 @@ public class TaskService {
     public final TaskRepository taskRepository;
 
     public Task saveTask(Task task){
+        task.setCompleted(false);
+        task.setCreatedAt(LocalDateTime.now());
         return taskRepository.save(task);
     }
 
@@ -28,9 +31,7 @@ public class TaskService {
         Task taskPrimary = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
         taskPrimary.setTittle(task.getTittle());
         taskPrimary.setDescription(task.getDescription());
-        taskPrimary.setCompleted(task.getCompleted());
-        taskPrimary.setCreatedAt(task.getCreatedAt());
-        return taskRepository.save(task);
+        return taskRepository.save(taskPrimary);
     }
 
     public void deleteTask(Task task){
