@@ -2,6 +2,7 @@ package com.devariel.gerenciamento_de_tarefas.service;
 
 import com.devariel.gerenciamento_de_tarefas.dto.TaskRequestDto;
 import com.devariel.gerenciamento_de_tarefas.dto.TaskResponseDto;
+import com.devariel.gerenciamento_de_tarefas.exception.TaskNotFoundException;
 import com.devariel.gerenciamento_de_tarefas.mapper.TaskMapper;
 import com.devariel.gerenciamento_de_tarefas.model.Task;
 import com.devariel.gerenciamento_de_tarefas.repository.TaskRepository;
@@ -32,12 +33,12 @@ public class TaskService {
     }
 
     public TaskResponseDto findByIdTask(Long id){
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not exist or not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         return taskMapper.toResponse(task);
     }
 
     public TaskResponseDto updateTask(Long id, TaskRequestDto requestDto){
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setTitle(requestDto.getTitle());
         task.setDescription(requestDto.getDescription());
         taskRepository.save(task);
@@ -49,7 +50,7 @@ public class TaskService {
     }
 
     public void completedTask(Long id){
-        Task taskPrimary = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
+        Task taskPrimary = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         taskPrimary.setCompleted(true);
         taskRepository.save(taskPrimary);
     }
