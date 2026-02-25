@@ -3,7 +3,6 @@ package com.devariel.gerenciamento_de_tarefas.service;
 import com.devariel.gerenciamento_de_tarefas.model.User;
 import com.devariel.gerenciamento_de_tarefas.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
