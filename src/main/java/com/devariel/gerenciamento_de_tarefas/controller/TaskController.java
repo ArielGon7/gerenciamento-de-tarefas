@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
 
-    public final TaskService taskService;
+    private final TaskService taskService;
 
     @PostMapping
     public ResponseEntity<TaskResponseDto> saveTask(@RequestBody @Valid TaskRequestDto requestDto){

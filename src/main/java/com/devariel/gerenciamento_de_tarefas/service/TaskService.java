@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TaskService {
-    public final TaskRepository taskRepository;
-    public final TaskMapper taskMapper;
+    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
     public TaskResponseDto saveTask(TaskRequestDto requestDto){
         Task entity = taskMapper.toEntity(requestDto);
