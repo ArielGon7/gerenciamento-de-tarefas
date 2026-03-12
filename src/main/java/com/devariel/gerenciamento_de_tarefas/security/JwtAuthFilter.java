@@ -20,25 +20,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHider = request.getHeader("Authorization");
-        if(authHider == null || authHider.startsWith("Bear")){
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHider.substring(7);
+        String token = authHeader.substring(7);
         String username = JwtUtil.extractToken(token);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userdatails = userDetailsService.loadUserByUsername(username);
-            if (JwtUtil.validateToken(token)){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userdatails, null, userdatails.getAuthorities());
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            if (JwtUtil.validateToken(token)) {
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-            filterChain.doFilter(request, response);
         }
+
+        filterChain.doFilter(request, response);
     }
 }
